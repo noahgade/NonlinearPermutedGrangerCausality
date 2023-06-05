@@ -12,4 +12,4 @@ Repository includes:
     
     Asari, H., M. Wehr, C. K. Machens, and A. M. Zador (2009). Auditory cortex and thalamic neuronal responses to various natural and synthetic sounds. CRCNS.org.
 
-- Code used to apply method to application data. (.R files)
+- Code used to apply method to application data (.R files).
