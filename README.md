@@ -4,7 +4,7 @@ Repository includes:
 
 - Simulation code used to generate results and figures discussed in paper (.R, .cpp, and .py files). 
 
-- Code used to modify the application study data in Section 5 (.m file). The original data for the application study was obtained from the [CRCNS data shaing website](https://crcns.org/data-sets). We use 060802mw02 from ac-1 and cite the following works:
+- Code used to modify the application study data in Section 5 (.m file). The original data for the application study was obtained from the [CRCNS data shaing website](http://crcns.org/data-sets/ac/ac-1). We use 060802mw02 from ac-1 and cite the following works:
 
     Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100.
     
