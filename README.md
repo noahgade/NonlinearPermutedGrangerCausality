@@ -8,7 +8,8 @@ Repository includes:
 
 - The data for the application study was obtained from the [CRCNS data shaing website](https://crcns.org/data-sets). We use 060802mw02 from ac-1 and cite the following works:
 
-    Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100
+    Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100.
+    
     Asari, H., M. Wehr, C. K. Machens, and A. M. Zador (2009). Auditory cortex and thalamic neuronal responses to various natural and synthetic sounds. CRCNS.org.
 
 - Code used to modify data set in application study Section 5. (.m file)
