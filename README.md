@@ -8,8 +8,14 @@ Repository includes:
 
 - Code used to modify the application study data in Section 5 (.m file). The original data for the application study was obtained from the [CRCNS data shaing website](http://crcns.org/data-sets/ac/ac-1). We use 060802mw02 from ac-1 and cite the following works:
 
-    Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100.
+        Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100.
     
-    Asari, H., M. Wehr, C. K. Machens, and A. M. Zador (2009). Auditory cortex and thalamic neuronal responses to various natural and synthetic sounds. CRCNS.org.
+        Asari, H., M. Wehr, C. K. Machens, and A. M. Zador (2009). Auditory cortex and thalamic neuronal responses to various natural and synthetic sounds. CRCNS.org.
 
 - Code used to apply method to application data (.R files).
+
+- We additionally cite the following for comparator methods in Section 4.
+
+        Tank, A., I. Covert, N. Foti, A. Shojaie, and E. B. Fox (2022). Neural granger causality.
+IEEE Transactions on Pattern Analysis and Machine Intelligence 44 (8), 4267–4279.
+       
