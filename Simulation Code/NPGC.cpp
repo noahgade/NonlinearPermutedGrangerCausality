@@ -106,10 +106,10 @@ arma::mat naive(arma::mat Y, arma::mat X, arma::mat Ylag, arma::mat Z, float n_i
 }
 
 // [[Rcpp::export]]
-arma::cube application_npgc(arma::mat Y, arma::mat X, arma::mat Ylag, float n_permutations, float n_initializations, float feature_dimension, arma::cube W1, arma::cube W2, arma::cube W3, arma::cube W4, arma::cube W5) {
+arma::cube application_npgc(arma::mat Y, arma::mat X, arma::mat Ylag, arma::mat Z, float n_permutations, float n_initializations, float feature_dimension, arma::cube W1, arma::cube W2, arma::cube W3, arma::cube W4, arma::cube W5) {
   float L = Y.n_rows;
   float n_folds = 5;
-  arma::mat A = scaleCpp(Ylag);
+  arma::mat A = scaleCpp(arma::join_horiz(Ylag, Z));
   arma::mat A0 = arma::join_horiz(arma::mat(L, 1, arma::fill::ones), A);
   arma::mat X0 = scaleCpp(X);
   
