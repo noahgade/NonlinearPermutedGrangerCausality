@@ -1,18 +1,14 @@
 # Nonlinear Permuted Granger Causality
 Repository includes:
-- Code used to obtain simulated data (.R files). Data files are located at the Google Drive folder [here](https://drive.google.com/drive/folders/1FqzzlJ_KDEQDeqNrzLtTre8OLD1OvVPq?usp=sharing).
+- Code used to obtain simulated data (.R, .cpp files).
 
-- Simulation code used to generate results and figures discussed in paper (.R, .cpp files). 
+- Simulation code used to generate results and figures discussed in Section 4 and the Appendices (.R, .cpp files). 
 
-- Simulation results can be found at the same Google Drive [folder](https://drive.google.com/drive/folders/1FqzzlJ_KDEQDeqNrzLtTre8OLD1OvVPq?usp=sharing).
-
-- Code used to modify the application study data in Section 5 (.R file). The original data for the application study was obtained from the [CRCNS data shaing website](http://crcns.org/data-sets/ac/ac-1). We use 050802mw03 from ac-1 and cite the following works:
+- Code and data used for the application study data in Section 5 (.R file). The original data for the application study was obtained from the [CRCNS data shaing website](http://crcns.org/data-sets/ac/ac-1). We use 050802mw03 from ac-1 and cite the following works:
 
 Machens, C. K., M. S. Wehr, and A. M. Zador (2004). Linearity of cortical receptive fields measured with natural sounds. *Journal of Neuroscience 24* (5), 1089–1100.
     
 Asari, H., M. Wehr, C. K. Machens, and A. M. Zador (2009). Auditory cortex and thalamic neuronal responses to various natural and synthetic sounds. CRCNS.org.
-
-- Code used to apply method to application data (.R files).
 
 - We additionally cite the following for comparator methods in Section 4.
 
