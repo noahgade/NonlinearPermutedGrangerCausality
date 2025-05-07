@@ -1,7 +1,7 @@
 library(abind)
 library(Rcpp)
 library(RcppArmadillo)
-sourceCpp("~/Wake Forest University Dropbox/Noah Gade/Research/NPGC/Simulations/Data/Data.cpp")
+sourceCpp("Data.cpp")
 
 tarData <- function(L = 1000, Dim = 2, Lag = 2, RegimeL = 10, Causal = NULL) {
   # Generates threshold autoregressive data, N(0, 1) innovations

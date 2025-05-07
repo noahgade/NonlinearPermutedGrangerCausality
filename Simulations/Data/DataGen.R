@@ -1,5 +1,5 @@
 rm(list = ls())
-source("~/Wake Forest University Dropbox/Noah Gade/Research/NPGC/Simulations/Data/Data.R")
+source("Data.R")
 
 # Setting parameters for data generation
 dim <- 3
@@ -46,5 +46,5 @@ for(model in 1:length(models)) {
     }
   }
 }
-save(datakey, file = "~/Wake Forest University Dropbox/Noah Gade/Research/NPGC/Simulations/Data/datakey.RData")
-save(data, file = "~/Wake Forest University Dropbox/Noah Gade/Research/NPGC/Simulations/Data/data.RData")
+save(datakey, file = "datakey.RData")
+save(data, file = "data.RData")
