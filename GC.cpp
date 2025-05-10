@@ -20,6 +20,19 @@ arma::mat Scale(arma::mat data) {
   return sdata;
 }
 
+double nrmse(arma::mat Mat, arma::mat RefMat) {
+  // Computes a normalized root mean squared error to RefMat
+  // Returns a value relative to the standard deviations of RefMat
+  arma::vec DiffMat = arma::mean(arma::pow(Mat - RefMat, 2), 0);
+  arma::vec NDiffMat = arma::vec(size(DiffMat));
+  for(int c = 0; c < RefMat.n_cols; c++) {
+    double scale = arma::stddev(RefMat.col(c));
+    NDiffMat(c) = DiffMat(c) / scale;
+  }
+  double Out = mean(NDiffMat);
+  return Out;
+}
+
 arma::mat Proximal(arma::mat Wi, double Threshold, int Penalty, arma::ivec VarKey, arma::ivec PenaltyKey) {
   // Computes proximal gradient for input matrix given a LASSO penalty
   // Penalty = 1 adds a LASSO penalty on all input weights Wi individually
@@ -209,19 +222,20 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
   // Penalty = 3 adds a group LASSO penalty by variable
   // Penalty = 4 adds a group sparse group LASSO penalty, combining 2 & 3
   // Penalty = 5 adds a hierarchical group LASSO penalty
-  int max_iter = 100000; // Maximum number of training iterations
-  int patience = 5000; // Continuation of training past minimum
+  int max_iter = 20000; // Maximum number of training iterations
+  int patience = 500; // Continuation of training past minimum
   double Epsilon = 0.001; // Learning Rate
   double Rho1 = 0.9; // Decay, moment 1
   double Rho2 = 0.999; // Decay, moment 2
   double Delta = 1e-8; // Stabilization term
-  double tol = 1e-6; // Tolerance for goal
+  double Ctol = 1e-4; // Tolerance for Condition goal
+  double Ntol = 1e-2; // Tolerance for NRMSE goal
   double Condition = 999;
-  double Last = 999;
+  double NRMSE = 999;
   int NTrain = trainInput.n_rows;
   int IDim = trainInput.n_cols;
   int ODim = trainOutput.n_cols;
-  arma::mat LossMat = Condition * arma::ones(max_iter + 1, 2);
+  arma::mat LossMat = Condition * arma::ones(max_iter + 1, 3);
   arma::mat tWi = Wi;
   arma::mat tWh = Wh;
   arma::mat tWo = Wo;
@@ -245,8 +259,9 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
     arma::mat ValidLoss = arma::pow((validOutput - hSOValid), 2);
     LossMat(iteration, 0) = arma::accu(TrainLoss) / TrainLoss.n_elem;
     LossMat(iteration, 1) = arma::accu(ValidLoss) / ValidLoss.n_elem;
+    LossMat(iteration, 2) = nrmse(hSOValid, validOutput);
     double MinLoss = LossMat(iteration, 1);
-    while((Condition > tol) or (Last > 0)) {
+    while((Condition > Ctol) and (NRMSE > Ntol)) {
       arma::cube dWi_cube = arma::zeros(IDim + 1, HDim, NTrain);
       arma::cube dWo_cube = arma::zeros(HDim + 1, ODim, NTrain);
       arma::mat dLdhO = -2 * (trainOutput - hSOTrain);
@@ -304,6 +319,7 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
       ValidLoss = arma::pow((validOutput - hSOValid), 2);
       LossMat(iteration, 0) = arma::accu(TrainLoss) / TrainLoss.n_elem;
       LossMat(iteration, 1) = arma::accu(ValidLoss) / ValidLoss.n_elem;
+      LossMat(iteration, 2) = nrmse(hSOValid, validOutput);
       if(LossMat(iteration, 1) < MinLoss) {
         MinLoss = LossMat(iteration, 1);
         Wi = tWi;
@@ -313,7 +329,7 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
         break;
       } else if(iteration >= patience) {
         Condition = LossMat(iteration - patience, 1) - LossMat(iteration, 1);
-        Last = LossMat(iteration - 1, 1) - LossMat(iteration, 1);
+        NRMSE = LossMat(iteration, 2);
       }
     }
   } else {
@@ -327,8 +343,9 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
     arma::mat ValidLoss = arma::pow((validOutput - hSOValid), 2);
     LossMat(iteration, 0) = arma::accu(TrainLoss) / TrainLoss.n_elem;
     LossMat(iteration, 1) = arma::accu(ValidLoss) / ValidLoss.n_elem;
+    LossMat(iteration, 2) = nrmse(hSOValid, validOutput);
     double MinLoss = LossMat(iteration, 1);
-    while((Condition > tol) or (Last > 0)) {
+    while((Condition > Ctol) and (NRMSE > Ntol)) {
       arma::cube dWi_cube = arma::zeros(IDim + 1, HDim, NTrain);
       arma::cube dWh_cube = arma::zeros(HDim + 1, HDim, NTrain);
       arma::cube dWo_cube = arma::zeros(HDim + 1, ODim, NTrain);
@@ -414,6 +431,7 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
       ValidLoss = arma::pow((validOutput - hSOValid), 2);
       LossMat(iteration, 0) = arma::accu(TrainLoss) / TrainLoss.n_elem;
       LossMat(iteration, 1) = arma::accu(ValidLoss) / ValidLoss.n_elem;
+      LossMat(iteration, 2) = nrmse(hSOValid, validOutput);
       if(LossMat(iteration, 1) < MinLoss) {
         MinLoss = LossMat(iteration, 1);
         Wi = tWi;
@@ -424,7 +442,7 @@ List TrainMLP(arma::mat trainInput, arma::mat trainOutput, arma::mat validInput,
         break;
       } else if(iteration >= patience) {
         Condition = LossMat(iteration - patience, 1) - LossMat(iteration, 1);
-        Last = LossMat(iteration - 1, 1) - LossMat(iteration, 1);
+        NRMSE = LossMat(iteration, 2);
       }
     }
   }
